@@ -15,11 +15,13 @@ public class Bullet : MonoBehaviour
 
     public ObjectPool<Bullet> myPool;
     public Rigidbody2D Rigidbody { get; private set; }
+    public AudioSource AudioSource { get; private set; }
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         Rigidbody = GetComponent<Rigidbody2D>();
+        AudioSource = GetComponent<AudioSource>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -37,6 +39,7 @@ public class Bullet : MonoBehaviour
         {
             Vector2 direction = (collision.transform.position - transform.position).normalized;
             fr.AddForce(direction * knockback);
+            AudioSource.Play();
         }
     }
 

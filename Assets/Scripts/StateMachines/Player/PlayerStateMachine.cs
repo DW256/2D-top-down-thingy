@@ -15,6 +15,10 @@ public class PlayerStateMachine : StateMachine
     [field: SerializeField] public Gun Gun { get; private set; }
     [field: SerializeField] public BulletSpawner BulletSpawner { get; private set; }
     [field: SerializeField] public Health Health { get; private set; }
+    [field: SerializeField] public AudioSource Audio { get; private set; }
+    [field: SerializeField] public AudioClip AudioDamage { get; private set; }
+    [field: SerializeField] public AudioClip AudioDeath { get; private set; }
+    [field: SerializeField] public GameOverController gameOverController { get; private set; }
     public float MovementSpeed { get; private set; }
     public float ShootIntervalModifier { get; private set; }
     public float DamageModifier { get; private set; }
@@ -52,11 +56,16 @@ public class PlayerStateMachine : StateMachine
 
     private void HandleTakeDamage()
     {
+        Audio.clip = AudioDamage;
+        Audio.Play();
         //SwitchState(new PlayerImpactState(this));
     }
 
     private void HandleDie()
     {
+        Audio.clip = AudioDeath;
+        Audio.Play();
+        gameOverController.DoGameOver();
         //SwitchState(new PlayerDeadState(this));
     }
 

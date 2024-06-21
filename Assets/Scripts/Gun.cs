@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +18,9 @@ public class Gun : MonoBehaviour
 
     public SpriteRenderer Sprite { get; private set; }
     public SpriteRenderer MuzzleFlash { get; private set; }
+    public CinemachineImpulseSource impulseSource { get; private set; }
     public ObjectPool<Bullet> BulletPool;
+    public AudioSource AudioSource;
 
     private float flashedFrame = 0f;
     private bool isFlash = false;
@@ -29,10 +32,11 @@ public class Gun : MonoBehaviour
     private void Awake()
     {
         Sprite = GetComponent<SpriteRenderer>();
+        impulseSource = GetComponent<CinemachineImpulseSource>();
 
         MuzzleFlash = Muzzle.GetComponent<SpriteRenderer>();
         MuzzleFlash.enabled = false;
-        
+
         canShoot = true;
 
     }
@@ -54,6 +58,11 @@ public class Gun : MonoBehaviour
         canShoot = true;
     }
 
+    public float GetCoolDownPercentage()
+    {
+        return (1-cooldown/baseStats.ShootInterval);
+    }
+
     //public void Shoot(Quaternion rotation, float damageModifier, float bulletSpeedModifier,float knockbackModifier, float shootIntervalModifier)
     public void Shoot(float damageModifier, float bulletSpeedModifier, float knockbackModifier, float shootIntervalModifier, Collider2D shooter)
     {
@@ -61,6 +70,8 @@ public class Gun : MonoBehaviour
         isFlash = true;
         canShoot = false;
         cooldown = baseStats.ShootInterval * shootIntervalModifier;
+        AudioSource.Play();
+        impulseSource.GenerateImpulse(Muzzle.transform.right * 0.2f);
 
         //Spawn bullet
         Bullet bullet = BulletPool.Get();
