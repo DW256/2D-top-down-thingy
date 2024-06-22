@@ -6,7 +6,7 @@ using UnityEngine.Pool;
 
 public class EnemyStateMachine : StateMachine
 {
-    [field: SerializeField] public AIPath AIPath { get; private set; }
+    [field: SerializeField] public AIAgent Agent { get; private set; }
     [field: SerializeField] public Rigidbody2D Rigidbody { get; private set; }
     [field: SerializeField] public SpriteRenderer AvatarSprite { get; private set; }
     [field: SerializeField] public Animator Animator { get; private set; }
@@ -14,11 +14,12 @@ public class EnemyStateMachine : StateMachine
     [field: SerializeField] public Health Health { get; private set; }
     [field: SerializeField] public AudioSource Audio { get; private set; }
     [field: SerializeField] private EnemyCollision Collision;
+    [field: SerializeField] public ParticleSystem blood { get; private set; }
     public ObjectPool<EnemyStateMachine> myPool;
 
     public Health Player;
 
-    [SerializeField] private float speed = 4;
+    [field: SerializeField] public float speed { get; private set; } = 4;
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int damage = 15;
     [SerializeField] private int knockback = 20;
@@ -26,9 +27,9 @@ public class EnemyStateMachine : StateMachine
     private void Awake()
     {
         Health.MaxHealth = maxHealth;
-        AIPath.maxSpeed = speed;
-        Collision.SetAttack(damage,knockback);
+        Collision.SetAttack(damage, knockback);
     }
+
     private void Start()
     {
         if (Player == null)
@@ -52,13 +53,18 @@ public class EnemyStateMachine : StateMachine
 
     private void HandleTakeDamage()
     {
-        //SwitchState(new PlayerImpactState(this));
+        PlayBloodParticle();
     }
 
     private void HandleDie()
     {
+        PlayBloodParticle();
         Audio.Play();
         myPool.Release(this);
-        //SwitchState(new PlayerDeadState(this));
+    }
+    private void PlayBloodParticle()
+    {
+        blood.transform.rotation = Quaternion.FromToRotation(Vector3.right, ForceReceiver.Movement);
+        blood.Play();
     }
 }

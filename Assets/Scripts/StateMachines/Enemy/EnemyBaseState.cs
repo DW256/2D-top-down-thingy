@@ -26,14 +26,14 @@ public abstract class EnemyBaseState : State
         }
     }
 
-    //protected void Move(Vector2 motion, float deltaTime)
-    //{
-    //    stateMachine.Rigidbody.velocity = motion + stateMachine.ForceReceiver.Movement;
-    //}
+    protected void Move(Vector2 motion, float deltaTime)
+    {
+        stateMachine.Rigidbody.velocity = motion + stateMachine.ForceReceiver.Movement;
+    }
 
-    //protected void Move(float deltaTime)
-    //{
-    //    Move(Vector2.zero, deltaTime);
-    //}
+    protected void Move(float deltaTime)
+    {
+        Move(Vector2.zero, deltaTime);
+    }
 
 }

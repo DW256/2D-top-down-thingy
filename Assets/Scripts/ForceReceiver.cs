@@ -1,13 +1,8 @@
-using Pathfinding;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class ForceReceiver : MonoBehaviour
 {
-    [SerializeField] private AIPath aipath;
+    [SerializeField] private AIAgent agent;
     [SerializeField] private float drag = 0.3f;
 
     private Vector2 dampingVelocity;
@@ -20,12 +15,12 @@ public class ForceReceiver : MonoBehaviour
 
         impact = Vector2.SmoothDamp(impact, Vector2.zero, ref dampingVelocity, drag);
 
-        if (aipath != null)
+        if (agent != null)
         {
             if (impact.sqrMagnitude < 0.2f * 0.2f)
             {
                 impact = Vector2.zero;
-                aipath.enabled = true;
+                agent.enableAgent = true;
             }
         }
     }
@@ -38,9 +33,9 @@ public class ForceReceiver : MonoBehaviour
     public void AddForce(Vector2 force)
     {
         impact += force;
-        if (aipath != null)
+        if (agent != null)
         {
-            aipath.enabled = false;
+            agent.enableAgent = false;
         }
     }
 }

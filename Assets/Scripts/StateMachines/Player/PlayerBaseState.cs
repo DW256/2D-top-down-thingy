@@ -49,7 +49,7 @@ public abstract class PlayerBaseState : State
 
     protected void OnShoot()
     {
-        if (!stateMachine.Gun.canShoot) return;
+        if (!stateMachine.Gun.canShoot | GameManager.Instance.isPaused) return;
 
         float damageModifier = stateMachine.DamageModifier;
         float bulletSpeedModifier = stateMachine.BulletSpeedModifier;

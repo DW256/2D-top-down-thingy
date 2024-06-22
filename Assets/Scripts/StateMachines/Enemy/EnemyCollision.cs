@@ -26,7 +26,7 @@ public class EnemyCollision : MonoBehaviour
         {
             Vector2 direction = (collision.transform.position - transform.position).normalized;
             fr.AddForce(direction * knockback);
-            sfr.AddForce(direction * knockback * -2);
+            sfr.AddForce(direction * knockback * -1);
         }
     }
 

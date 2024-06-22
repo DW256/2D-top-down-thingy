@@ -18,7 +18,14 @@ public class EnemyChasingState : EnemyBaseState
 
     public override void Tick(float deltaTime)
     {
-        stateMachine.AIPath.destination = stateMachine.Player.transform.position;
+        stateMachine.Agent.destination = stateMachine.Player.transform.position;
+        Move(CalculateMovement(), deltaTime);
         base.Tick(deltaTime);
+    }
+
+    Vector2 CalculateMovement()
+    {
+        Vector2 movement = stateMachine.Agent.velocity * stateMachine.speed;
+        return movement;
     }
 }

@@ -15,7 +15,7 @@ public class StateMachine : MonoBehaviour
 
     private void Update()
     {
-        if(PauseController.isPaused) return;
+        if(GameManager.Instance.isPaused) return;
         currentState?.Tick(Time.deltaTime);
     }
 

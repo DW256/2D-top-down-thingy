@@ -37,6 +37,7 @@ public class EnemySpawner : MonoBehaviour
     void OnEnemyTake(EnemyStateMachine enemy)
     {
         enemy.gameObject.SetActive(true);
+        enemy.Health.ResetHealth();
     }
     void OnEnemyRelease(EnemyStateMachine enemy)
     {

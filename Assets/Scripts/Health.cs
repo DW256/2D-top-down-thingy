@@ -17,7 +17,17 @@ public class Health : MonoBehaviour
 
     private void Start()
     {
+        ResetHealth();
+    }
+
+    public void ResetHealth()
+    {
         health = MaxHealth;
+    }
+
+    public void addHealth(int health)
+    {
+        health += health;
     }
 
     public void SetInvulnerable(bool isInvulnerable)

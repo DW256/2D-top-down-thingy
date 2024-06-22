@@ -10,8 +10,14 @@ public class HUDController : MonoBehaviour
 
     [SerializeField] private PlayerStateMachine player;
     [SerializeField] private Image healthImageFill;
+    [SerializeField] private TextMeshProUGUI HealthText;
     [SerializeField] private Image cdImageFill;
-    [SerializeField] private TextMeshProUGUI TimerUI;
+    [SerializeField] private TextMeshProUGUI TimerText;
+
+    private void Start()
+    {
+        Timer = 0f;
+    }
 
     void FixedUpdate()
     {
@@ -22,7 +28,10 @@ public class HUDController : MonoBehaviour
 
     void ProcessHealthBar()
     {
-        healthImageFill.fillAmount = (float)player.Health.health / (float)player.Health.MaxHealth;
+        int current = player.Health.health;
+        int max = player.Health.MaxHealth;
+        healthImageFill.fillAmount = (float)current / (float)max;
+        HealthText.text = $"{current}/{max}";
     }
 
     void ProcessCDBar()
@@ -32,9 +41,9 @@ public class HUDController : MonoBehaviour
 
     void ProcessTimer()
     {
-        if (PauseController.isPaused) return;
+        if (GameManager.Instance.isPaused) return;
         Timer += Time.fixedDeltaTime;
 
-        TimerUI.text = Timer.ToString("0");
+        TimerText.text = Timer.ToString("0");
     }
 }
