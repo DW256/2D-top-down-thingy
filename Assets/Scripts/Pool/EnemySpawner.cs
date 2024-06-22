@@ -19,12 +19,17 @@ public class EnemySpawner : MonoBehaviour
     public float EnemySpawnInterval = 10f;
     public float EnemySpawnCooldown = 0f;
 
+    public PowerUpSpawner PowerUpSpawner;
+    public ObjectPool<PowerUp> PowerUpPool;
+
 
     private void Awake()
     {
         EnemyPool = new ObjectPool<EnemyStateMachine>(OnEnemyCreate, OnEnemyTake, OnEnemyRelease, OnEnemyDestroy);
         CorpsePool = new ObjectPool<GameObject>(OnCorpseCreate, OnCorpseTake, OnCorpseRelease, OnCorpseDestroy, true, 20, 20);
         EnemySpawnCooldown = EnemySpawnInterval;
+
+        
     }
 
     #region ObjectPool
@@ -44,6 +49,12 @@ public class EnemySpawner : MonoBehaviour
         Transform corpse = CorpsePool.Get().transform;
         corpse.position = enemy.transform.position;
         UpdateGraph(corpse.transform);
+
+        if (Random.value < 0.5f)
+        {
+            Transform pu = PowerUpPool.Get().transform;
+            pu.position = enemy.transform.position + new Vector3(1f,1f,0f);
+        }
         enemy.gameObject.SetActive(false);
     }
     void OnEnemyDestroy(EnemyStateMachine enemy)
@@ -85,6 +96,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
+        PowerUpPool = PowerUpSpawner.Pool;
         SpawnEnemy(InitEnemySpawn);
     }
     private void FixedUpdate()

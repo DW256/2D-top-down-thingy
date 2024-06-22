@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [HideInInspector]public int MaxHealth;
+    [HideInInspector] public int MaxHealth;
 
     public int health { get; private set; }
     private bool isInvulnerable;
@@ -25,9 +25,9 @@ public class Health : MonoBehaviour
         health = MaxHealth;
     }
 
-    public void addHealth(int health)
+    public void addHealth(int heal)
     {
-        health += health;
+        health = Mathf.Min(health + heal, MaxHealth);
     }
 
     public void SetInvulnerable(bool isInvulnerable)

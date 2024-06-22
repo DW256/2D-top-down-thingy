@@ -15,6 +15,7 @@ public class EnemyStateMachine : StateMachine
     [field: SerializeField] public AudioSource Audio { get; private set; }
     [field: SerializeField] private EnemyCollision Collision;
     [field: SerializeField] public ParticleSystem blood { get; private set; }
+
     public ObjectPool<EnemyStateMachine> myPool;
 
     public Health Player;
@@ -59,6 +60,7 @@ public class EnemyStateMachine : StateMachine
     private void HandleDie()
     {
         PlayBloodParticle();
+
         Audio.Play();
         myPool.Release(this);
     }
